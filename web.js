@@ -1,7 +1,7 @@
 var express = require('express'), 
 	app = express.createServer(express.logger()),
 	pg = require('pg'), 
-	connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/payalandjustin', 
+	connectionString = process.env.DATABASE_URL || process.env.HEROKU_POSTGRESQL_TEAL_URL || 'postgres://localhost:5432/payalandjustin', 
 	start = new Date(), 
 	port = process.env.PORT || 3000, 
 	client,
