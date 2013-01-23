@@ -1,0 +1,34 @@
+<html>
+	<head></head>
+	<body>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Attending</th>
+					<th>Address</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% attendees.forEach(function(attendee){ %>
+					<tr>
+						<td>
+							<%= attendee.name %>
+						</td>
+						<td>
+							<%= attendee.attending ? "yes" : 
+							  ( attendee.attending === false ? "no" : "?")%>
+						</td>
+						<td>
+								<%= attendee.name %><br/>
+								<%= attendee.street %> <%= attendee.apt %></br>
+								<%= attendee.city %>, <%= attendee.state %> <%= attendee.zip %></br>
+								<%= attendee.country %>
+						</td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+		
+	</body>
+</html>

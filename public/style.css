@@ -43,7 +43,7 @@ h1 {
 }
 #left {
 	position: relative;
-	width: 300px;
+	width: 270px;
 	float: left;
 	z-index: 1;
 }
@@ -53,4 +53,36 @@ h1 {
 }
 a {
 	color: #dddddd;
+}
+p {
+	margin: 0px;
+	padding: 12px 0px;
+}
+[name=name] {
+	font-size: 14px;
+}
+
+[name=city] {
+	width: 100px;
+}
+[name=street]{
+	width: 180px;
+}
+[name=apt] {
+	width: 60px;
+}
+[name=zip]{
+	width: 65px;
+}
+[name=state]{
+	width: 65px;
+}
+#location-units {
+	padding-top: 0px;
+}
+.error {
+	border-color: red;
+}
+.zip-dependent {
+	display: none;
 }

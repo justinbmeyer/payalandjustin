@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payal and Justin's Wedding</title>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+	<div id='background'></div>
+	<h1>Save the date!</h1>
+	<div id='left'>
+		<div class='box'>
+			August 10th, 2013 at the
+			<a href='https://maps.google.com/maps?q=400+S.+State+Street,+60605&hnear=400+S+State+St,+Chicago,+Cook,+Illinois+60605&gl=us&t=m&z=16'>Harold Washington Library</a>.
+			More details coming soon.
+		</div>
+		<div class='box'>
+			<form action='/attendees' method='post' id='create_attendee'>
+				
+				<p id='attending'>
+					Can you make it? 
+					<input name="attending" value="true" type="radio" id="available" 
+						<%= attendee.attending === true ? "checked" : ""%>/>
+					<label for='available'>Yes</label>
+					<input name="attending" value="false" type="radio" id='notavailable'
+						<%= attendee.attending === false ? "checked" : ""%>/> 
+						<label for='notavailable'>No</label>.
+				</p>
+				<p>
+					<input placeholder="name" name="name" value="<%= attendee.name || "" %>"/>
+				</p>
+				<div id='address'>
+					<p id='country'>
+						Country:</br>
+						<input name="country" value="USA" type="radio" id='usa'
+							<%= !attendee.country || attendee.country == "USA" ? "checked" : ""%> /> 
+						<label for='usa'>USA</label>
+						<input name="country" value="India" type="radio" id='india'
+							<%= attendee.country == "India" ? "checked" : ""%>/> 
+						<label for='india'>India</label>
+						
+						<input name="country" value="Canada" type="radio" id='canada'
+							<%= attendee.country == "Canada" ? "checked" : ""%>/>
+						<label for='canada'>Canada</label>
+					</p>
+					
+					
+					<div id='street'>
+						<p>
+							<input placeholder="street" name="street" value="<%= attendee.street || ""%>"/>
+							<input placeholder="apt" name="apt" value="<%= attendee.apt || ""%>"/>
+						</p>
+						<p id='location-units'>
+							<input placeholder="city" name="city" class='zip-dependent' value="<%= attendee.city || ""%>"/>
+							<input placeholder="state" name="state" class='zip-dependent' value="<%= attendee.state || ""%>"/>
+							<input placeholder="zip code" name="zip" value="<%= attendee.zip || ""%>"/>
+						</p>
+					</div>
+				</div>
+				<p>
+					<input type='submit' value="<%= attendee.id ? 'Update' : 'Submit' %>">
+					<span id='thanks' style="display:none">Thank you!</span>
+				</p>
+			</form>
+		</div>
+	</div>
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js'></script>
+	<script src='std.js'></script>
+</body>
+</html>
