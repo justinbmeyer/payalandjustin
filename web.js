@@ -5,7 +5,8 @@ var express = require('express'),
 	start = new Date(), 
 	port = process.env.PORT || 3000, 
 	client,
-	str = require('./escapestr').str;
+	str = require('./escapestr').str,
+	connect = require('connect');
 
 client = new pg.Client(connectionString);
 client.connect();
@@ -15,31 +16,15 @@ app.configure(function(){
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({secret: 'secret-cookie'}));
-	
+	app.use(connect.compress());
 	app.use( express.static( __dirname + '/public') );
 })
 
 app.get('/', function(req, res){
-	var render = function(attendee){
-			res.render('index.ejs', {
-			  layout:false,
-			  locals: {attendee:attendee}
-			});
-		}
+	res.render('index.ejs', {
+			  layout:false
+	});
 	
-	if(req.session.attendeeId){
-		console.log("here!!!!!!!!!!!")
-		var query = client.query('SELECT * FROM attendees WHERE id = $1',[req.session.attendeeId]);
-		query.on('row', function(result){
-			if(res){
-				render(result);
-			} else {
-				render({});
-			}
-		})
-	} else {
-		render({})
-	}
 });
 
 app.get('/attendee', function(req, res){
