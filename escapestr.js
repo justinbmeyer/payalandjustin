@@ -1,5 +1,5 @@
 var escape = exports.escape = function (str) {
-    return str.replace( /[\0\x08\x09\x1a\n\r"'\\\%]/g, function (ch) {
+    return str && str.replace( /[\0\x08\x09\x1a\n\r"'\\\%]/g, function (ch) {
         switch (ch) {
             case "\0":
                 return "\\0";
@@ -23,5 +23,5 @@ var escape = exports.escape = function (str) {
     });
 };
 exports.str = function(str){
-	return "'"+escape(str)+"'"
+	return str ? "'"+escape(str)+"'" : null
 }

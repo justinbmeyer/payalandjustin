@@ -40,8 +40,22 @@ app.get('/', function(req, res){
 	} else {
 		render({})
 	}
-	
-	
+});
+
+app.get('/attendee', function(req, res){
+	if(req.session.attendeeId){
+		console.log("here!!!!!!!!!!!")
+		var query = client.query('SELECT * FROM attendees WHERE id = $1',[req.session.attendeeId]);
+		query.on('row', function(result){
+			if(result){
+				res.send(result);
+			} else {
+				res.send({});
+			}
+		})
+	} else {
+		res.send({})
+	}
 })
 
 app.get('/attendees', function(req, res) {
@@ -62,14 +76,14 @@ app.get('/attendees', function(req, res) {
 
 
 
-app.post('/attendees', function(req, res) {
+app.post('/attendee', function(req, res) {
   
   var propertyNames = ["name","street","apt",
 	  	 "city","state","zip","country","attending"],
   	 values = [
 	  	 	str(req.body.name),
 	  	 	str(req.body.street),
-	  	 	str(req.body.apt),
+	  	 	req.body.apt? str(req.body.apt) : 'null',
 	  	 	str(req.body.city),
 	  	 	str(req.body.state),
 	  	 	str(req.body.zip),
@@ -95,8 +109,9 @@ app.post('/attendees', function(req, res) {
 	  
 	  
   }
+  console.log(sql)
   client.query(sql,function(err, result){
-  	console.log(err, result)
+  	
   	var id = result.rows[0].id;
   	req.session.attendeeId = id;
   	res.send({id: id})

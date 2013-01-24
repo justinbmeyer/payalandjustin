@@ -1,0 +1,46 @@
+<p id='attending'>
+	Can you make it? 
+	<input name="attending" value="true" type="radio" id="available" {{checked attendee.attending}}/>
+	<label for='available'>Yes</label>
+	<input name="attending" value="false" type="radio" id='notavailable' {{checked attendee.attending}}/> 
+	<label for='notavailable'>No</label>.
+</p>
+<p>
+	<input name="name" {{value attendee.name}} {{placeholder "name"}}/>
+</p>
+<div id='address'>
+	<p id='country'>
+		Country:</br>
+		<input name="country" value="USA" type="radio" id='usa' {{checked attendee.country}} /> 
+		<label for='usa'>USA</label>
+		<input name="country" value="India" type="radio" id='india' {{checked attendee.country}}/> 
+		<label for='india'>India</label>
+		<input name="country" value="Canada" type="radio" id='canada' {{checked attendee.country}}/>
+		<label for='canada'>Canada</label>
+	</p>
+	
+	
+	<div id='street'>
+		<p>
+			<input name="street" {{value attendee.street}} {{placeholder "state"}}/>
+			<input name="apt" {{value attendee.apt}} {{placeholder "apt"}}/>
+		</p>
+		<p id='location-units'>
+			<input name="city" 
+			   {{value attendee.city}} 
+			   {{fadeInWhen cityOrStateSetOrCountryNotUSA}}
+			   {{placeholder "city" attendee.city}}/>
+			<input name="state" 
+				{{value attendee.state}} 
+				{{fadeInWhen cityOrStateSetOrCountryNotUSA}}
+				{{placeholder statePlaceholder attendee.state}}/>
+			<input name="zip" 
+				{{value attendee.zip}} 
+				{{placeholder zipPlaceholder}}/>
+		</p>
+	</div>
+</div>
+<p>
+	<input type='submit' value="Submit">
+	<span id='thanks' style="display:none">Thank you!</span>
+</p>

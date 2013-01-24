@@ -86,3 +86,6 @@ p {
 .zip-dependent {
 	display: none;
 }
+.placeholder {
+	color: gray;
+}
