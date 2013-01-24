@@ -45,14 +45,16 @@ var showing = 0,
     Placeholder = can.Control({
         init: function(element, options) {
             if( placeholderSupported ) {
-            	this.element.attr('placeholder', this.options.placeholder() );   
+            		this.element.attr('placeholder', this.options.placeholder() );   
             } else {
                 if( this.element.val() === '' ) {
                     this.addPlaceholder(); 
                 } else {
-                	this.changed = true;
+                		this.changed = true;
                 }
+                
             }
+            
         },
         addPlaceholder: function(){
             this.element.val(this.options.placeholder()) 
@@ -257,6 +259,7 @@ var AttendeeControl = can.Control({
 			self.options.attendee = attendee;
 			self.on();
 		});
+		
 	},
 	suggestCityAndState: function(value){
 		var el = this.element.find("[name=zip]"),
@@ -326,7 +329,10 @@ var AttendeeControl = can.Control({
 	}
 })
 
-new AttendeeControl("#create_attendee")
+$(function(){
+	new AttendeeControl("#create_attendee")
+})
+
 
 
 
