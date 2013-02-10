@@ -265,7 +265,7 @@ var AttendeeControl = can.Control({
 		var el = this.element.find("[name=zip]"),
 			value = el.val();
 		
-		if( value && ( parseInt(value)+"" != value )   ){
+		if( value && ( isNaN( parseInt(value) ) )   ){
 			el.addClass("error");
 			return;
 		} else {
