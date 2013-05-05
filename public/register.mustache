@@ -1,0 +1,44 @@
+<table>
+	<thead>
+		<tr class='dates'>
+			<th></th>
+			{{#dates}}
+				<th colspan="{{count}}">
+					{{date}}
+				</th>
+			{{/dates}}
+		</tr>
+		<tr class='times'>
+			<th></th>
+			{{#events}}
+				<th>
+					{{time date}}
+				</th>
+			{{/events}}
+		</tr>
+		<tr class='titles'>
+			<th></th>
+			{{#events}}
+				<th>
+					{{title}}
+				</th>
+			{{/events}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#family}}
+		 	{{#attendee}}
+			<tr {{data "attendee"}}>
+				<td>{{name}}</td>
+				{{#events}}
+					<td>
+						{{{rsvp attendee}}}
+					</td>
+				{{/events}}
+			</tr>
+			{{/attendee}}
+		{{/family}}
+	</tbody>
+
+</table>
+<input type="submit" value="RSVP" id='rsvp'/>

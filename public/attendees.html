@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>People</title>
+<style>
+	table {
+		font-size: 11px;
+		font-family: "Lucida Grande";
+	}
+	.small {
+		font-weight: normal;
+		font-size: 10px;
+	}
+	.attendee:hover, table .attendee:nth-child(2n):hover td {
+		background-color: yellow;
+	}
+	table tr:nth-child(2n) td {
+	    background: none repeat scroll 0 0 #F3F6FA;
+	}
+	table thead th {
+	    background-image: -moz-linear-gradient(270deg, #FFFFFF 0%, #FCFCFC 47%, #F4F3F3 49.9%, #F0EFEF 100%);
+	    border-bottom: 1px solid #CCCCCC;
+	    border-right: 1px solid #D9D9D9;
+	    border-top: 1px solid #CCCCCC;
+	    cursor: pointer;
+	    font-size: 11px;
+	    height: 20px;
+	    padding: 0 7px 0 5px;
+	    text-align: left;
+	    vertical-align: middle;
+	}
+	th.blank{
+		border: none;
+		background: none;
+	}
+	td {
+		border-right: 1px solid #E9E9E9;
+	}
+</style>
+</head>
+<body>
+	
+<table cellspacing="0">
+	<thead>
+		<tr>
+			<th colspan="4" class='blank'></th>
+			<th colspan="2">Manglik Prasang</th>
+			<th colspan="2">Mehndi</th>
+			<th colspan="2">Wedding</th>
+		</tr>
+		<tr>
+			<th>Name</th>
+			<th>House</th>
+			<th>Attending</th>
+			<th>Address</th>
+			<th class='small'>Invited</th>
+			<th class='small'>Attending</th>
+			<th class='small'>Invited</th>
+			<th class='small'>Attending</th>
+			<th class='small'>Invited</th>
+			<th class='small'>Attending</th>
+		</tr>
+	</thead>
+	<tbody id='attendees'>
+	</tbody>
+</table>
+<h2>New Attendee</h2>
+<div id='wrapper'>
+</div>
+	
+<script type='text/ejs' id='listEJS'>
+	
+	<% this.each(function(attendee){ %>
+		<tr class='attendee' <%= (el)-> el.data('attendee',attendee) %>>
+			<td>
+				<%== inlineEdit( attendee, "name") %>
+			</td>
+			<td class='house'>
+				<div class='house-value'><%= attendee.headOfHouse() %></div>
+				<div class='house-edit'></div>
+			</td>
+			<td>
+				<%== checkbox(attendee,"attending") %>
+			</td>
+			<td class='address'>
+					<%= attendee.street %> <%= attendee.apt %></br>
+					<%= attendee.city %>, <%= attendee.state %> <%= attendee.zip %></br>
+					<%= attendee.country %>
+			</td>
+			
+			<td>
+				<%== checkbox(attendee,"invitedtomanglik") %>
+			</td>
+			<td>
+				<%== nullcheckbox(attendee,"comingtomanglik") %>
+			</td>
+			<td>
+				<%== checkbox(attendee,"invitedtomehndi") %>
+			</td>
+			<td>
+				<%== nullcheckbox(attendee,"comingtomehndi") %>
+			</td>
+			<td>
+				<%== checkbox(attendee,"invitedtowedding") %>
+			</td>
+			<td>
+				<%== nullcheckbox(attendee,"comingtowedding") %>
+			</td>
+			<td>
+				<button class='destroy'>Delete</button>
+			</td>
+		</tr>
+	<% }) %>
+	
+</script>
+<script type='text/mustache' id='headOfHouse'>
+<select name="headofhouseid" {{value attendee.headofhouseid}}>
+	{{#attendees.heads}}
+		<option value="{{id}}">{{name}}</option>
+	{{/}}
+</select>
+</script>
+	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+	<script src='can.custom.js'></script>
+	<script src='lib.js'></script>
+	<script>
+		var attendees = new Attendee.List();
+		attendees.heads = function(){
+			var heads = [{id: "", name: "self"}];
+			this.each(function(attendee){
+				if( !attendee.attr('headofhouseid') ){
+					heads.push(attendee)
+				}
+				
+			})
+			return heads
+		}
+		var byId = {};
+		var sorted = Attendee.findAll({},function(attendees){
+			// hack to get stuff in the store
+			attendees.each(function(attendee){
+				attendee.bind("change",function(){});
+			})
+		}).then(function(attendees){
+			attendees.each(function(attendee){
+				byId[attendee.id] = attendee
+			})
+			var arr = can.makeArray(attendees);
+			arr.sort(function(a, b){
+				var houseA = byId[typeof a.headofhouseid == "number" ? a.headofhouseid 
+						: a.id],
+					houseB = byId[typeof b.headofhouseid == "number" ? b.headofhouseid 
+						: b.id]
+				
+				var houseALast = $.trim(houseA.name.toLowerCase()).split(" ").pop(),
+					houseBLast = $.trim(houseB.name.toLowerCase()).split(" ").pop();
+
+				if(houseALast < houseBLast){
+					return -1
+				} else if(houseALast > houseBLast){
+					return 1
+				} else {
+					if( houseA.id - houseB.id == 0){
+						if(typeof a.headofhouseid == "number" && typeof b.headofhouseid != "number" ){
+							return 1
+						} else if(typeof a.headofhouseid !== "number" && typeof b.headofhouseid == "number" ){
+							return -1
+						} else {
+							return 0
+						}
+					} else {
+						return houseA.id - houseB.id;
+					}
+				}
+			})
+			return arr
+		})
+		
+		attendees.replace(sorted);
+		
+		
+		
+		AttendeesControl = can.Control({
+			init: function(){
+				this.element.html( can.view("listEJS", attendees,{
+					checkbox: function(item, property){
+						
+						return "<input type='checkbox' name='"+property+"' "+
+								can.view.hook(function(el){
+									new Checked(el, {
+										value: item.compute(property)
+									})
+								})+"/>"
+					},
+					nullcheckbox: function(item, property){
+						return "<div "+
+								can.view.hook(function(el){
+									new NullChecked(el, {
+										value: item.compute(property)
+									})
+								})+"/>"
+					},
+					inlineEdit: function(item, property){
+						return "<div "+
+								can.view.hook(function(el){
+									new InlineTextEdit(el, {
+										value: item.compute(property)
+									})
+								})+"/>"
+					}
+				}) )
+			},
+			".destroy click": function(el){
+				el.closest('.attendee').data('attendee').destroy()
+			},
+			".house-value click": function(el){
+				var attendee = el.closest('.attendee').data('attendee');
+
+				el.hide().next().html( 
+					can.view("headOfHouse",{
+						attendee: attendee,
+						attendees: attendees
+					})	
+				);
+			},
+			".house change": function(el){
+				var attendee = el.closest('.attendee').data('attendee');
+				el.find("select").prop("disabled",true);
+				attendee.save(function(){
+					el.find('.house-value').show()
+					el.find('.house-edit').empty()
+				})
+			}
+		})
+		attendees.bind("change",function(ev, attr, how){
+			var props = attr.split(".");
+			if(props[1] && /invitedto|comingto|name/.test(props[1])){
+				attendees.attr(props[0]).save()
+			}
+		})
+		
+		new AttendeesControl("#attendees")
+		
+		
+		Attendee.bind("created",function(ev, newAttendee){
+			attendees.push(newAttendee)
+		})
+		
+		$(function(){
+			
+			var setup =  function(){
+				$("#wrapper").html("<form action='/attendees' method='post' id='create_attendee'></form>")
+
+				var newAttendee = new Attendee({});
+			
+				var control = new AttendeeControl("#create_attendee",{
+					attendee: newAttendee,
+					attendees: attendees
+				})
+				
+				Attendee.bind("created",function(){
+
+					setTimeout(function(){
+						setup()
+					},1)
+					
+				})
+			}
+			setup();
+			
+			
+		})
+	</script>
+</body>
+</html>

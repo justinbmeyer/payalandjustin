@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payal and Justin's Wedding</title>
+<style>
+	.coming {
+		background-color: green;
+	}
+	.regrets {
+		background-color: red;
+	}
+</style>
+</head>
+<body>
+	<div id='search'> </div>
+	<form id='family-register' action=''></form>
+	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+	<script src='can.jquery-all.min.js'></script>
+	<script src='lib.js'></script>
+	<script src='register.js'></script>
+	<script>
+		var family = can.compute();
+		
+		Search = can.Control({
+			init: function(){
+				// map attendees family
+				var families = this.families = {};
+				var makeById = function(id){
+					if( !families[id] ) {
+						families[id] = {children: []}
+					}
+					return families[id];
+				};
+				
+				this.options.attendees.each(function(attendee){
+					if(typeof attendee.headofhouseid == 'number'){
+						makeById(attendee.headofhouseid).children.push(attendee)
+					} else {
+						makeById(attendee.id).head = attendee
+					}
+				})
+				this.options.results = new can.Observe.List()
+				this.element.html(can.view("search.mustache",this.options))
+			},
+			getFamily: function(attendee){
+				if(typeof attendee.headofhouseid == 'number'){
+					return this.families[attendee.headofhouseid]
+				} else {
+					return this.families[attendee.id]
+				}
+			},
+			"input keypress": "updateResults",
+			"input keyup": "updateResults",
+			updateResults: function(){
+				var self = this;
+				// grouped by family id
+				var newResults = {},
+					value = this.element.find('input').val();
+					
+				if(!value){
+					this.options.results.replace([])
+				}
+					
+				this.options.attendees.each(function(attendee){
+					if( attendee.name.toLowerCase().indexOf(value.toLowerCase()) >= 0 ){
+						var family = self.getFamily(attendee)
+						newResults[family.head.id] = family
+					}
+				})
+				var results = [];
+				
+				for(var id in newResults){
+					var res = newResults[id];
+					
+					results.push({
+						familyStructure: res,
+						text: can.map([res.head].concat(res.children), function(attendee){
+							return attendee.name || "Guest"
+						}).join(", ")
+					})
+				}
+				this.options.results.replace(results)
+			},
+			"li click": function(el){
+				var struture = el.data('result').familyStructure;
+				
+				this.options.family(  [struture.head].concat(can.makeArray(struture.children)) )
+			}
+		})
+	
+		Attendee.findAll({}, function(attendees){
+			
+			new Search("#search",{
+				attendees: attendees,
+				family: family
+			})
+
+		})
+		
+		can.Mustache.registerHelper('time', function(date){
+			var hour = date.getHours();
+			var min = date.getMinutes();
+			if(min < 10){
+				min = "0"+min;
+			}
+			if(hour > 12){
+				return (hour-12)+":"+min+" pm"
+			} else {
+				return (hour)+":"+min+" am"
+			}
+		})
+		can.Mustache.registerHelper('rsvp', function(attendee){
+			var name = this.name,
+				coming = true;
+			if( !attendee.attr("invitedto"+name) ){
+				return ""
+			}
+			var checkbox = "<input type='checkbox' name='"+name+"' ";
+			if( attendee.attr("comingto"+name) === true){
+				
+			} else if( attendee.attr("comingto"+name) === false ){
+				coming = false
+			} else if( attendee.attr("attending") === false ) {
+				coming = false
+			} else {
+
+			}
+			if(coming){
+				checkbox += "CHECKED"
+			}
+			
+			checkbox += "/>";
+			
+			
+			
+			return "<div class='"+
+				(coming ? "coming" : "regrets") 
+				+"'>" + checkbox + 
+				(coming ? "attending" : "regrets") +"</div>";
+		})
+		
+		var RegisterFamily = can.Control({
+			"{family} change": function(fam, ev, family){
+				
+				if(!family || !family.length){
+					this.element.html("")
+				}
+				var eventNames = ["manglik", "mehndi","wedding"],
+					days = {
+						1: {
+							date: "Friday Aug 9th",
+							count: 0
+						},
+						2: {
+							date: "Saturday Aug 10th",
+							count: 0
+						}
+					}
+				
+				var events = {
+					manglik: {
+						date: new Date(2013, 7, 9, 10, 30),
+						day: 1,
+						title: "Manglik Prasang",
+						invites: 0
+					},
+					mehndi: {
+						date: new Date(2013, 7, 9, 17, 30),
+						day: 1,
+						title: "Mehndi",
+						invites: 0
+					},
+					wedding: {
+						date: new Date(2013, 7, 10, 16, 0),
+						day: 2,
+						title: "Wedding & Reception",
+						invites: 0
+					}
+				};
+				
+				can.each(family, function(attendee){
+					for(var name in events){
+						if( attendee["invitedto"+name] ){
+							events[name].invites++
+						}
+					}
+				})
+				
+				var eventList = [];
+				for(var name in events){
+					
+					events[name].name = name;
+					
+					if(events[name].invites){
+						eventList.push(events[name])
+						days[ events[name].day ].count++
+					}
+				}
+				
+				var dayList = [];
+				for( dayNum in days){
+					if(days[dayNum].count){
+						dayList.push(days[dayNum])
+					}
+				}
+				
+				this.element.html(
+					can.view("register.mustache",{
+						family: can.map(family, function(attendee){
+							return {attendee: attendee}
+						}),
+						dates: dayList,
+						events: eventList
+					})
+				);
+			},
+			"[type=checkbox] change": function(el){
+				var attendee = el.closest('tr').data('attendee')
+				var prop = el.attr("name");
+				
+				attendee.attr("comingto"+prop, el.is(":checked"))
+				
+			},
+			"submit" : function(el, ev){
+				ev.preventDefault();
+				var defs = [];
+				var attendees = this.options.family();
+				can.each(attendees, function(attendee){
+					defs.push(attendee.save())
+				})
+				$("#rsvp").val("updating ...")
+				$.when.apply($,defs).then(function(){
+					$("#rsvp").val("RSVP")
+				})
+			}
+		})
+		
+	
+		
+		
+		new RegisterFamily("#family-register",{
+			family: family
+		})
+		
+		
+	</script>
+</body>
+</html>

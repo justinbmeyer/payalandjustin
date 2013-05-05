@@ -1,0 +1,13 @@
+<input name="search" {{placeholder "Search for your name"}}/>
+<ul>
+	{{#results.length}}
+		{{#results}}
+			<li {{data 'result'}}>
+				{{text}}
+			</li>
+		{{/}}
+	{{/results.length}}
+	{{^results.length}}
+		<li>No Results</li>
+	{{/}}
+</ul>

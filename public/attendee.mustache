@@ -1,13 +1,23 @@
+<p>
+	<input name="name" {{value attendee.name}} {{placeholder "name"}}/> 
+	(Editable <input name="editableName" value="true" type="checkbox" {{checked attendee.editableName}}/>)
+</p>
+<p>
+	Primary: 
+	<select name="headofhouseid" {{value attendee.headofhouseid}}>
+		{{#attendees.heads}}
+			<option value="{{id}}">{{name}}</option>
+		{{/}}
+	</select>
+</p>
 <p id='attending'>
-	Can you make it? 
+	Can they make it? 
 	<input name="attending" value="true" type="radio" id="available" {{checked attendee.attending}}/>
 	<label for='available'>Yes</label>
 	<input name="attending" value="false" type="radio" id='notavailable' {{checked attendee.attending}}/> 
 	<label for='notavailable'>No</label>.
 </p>
-<p>
-	<input name="name" {{value attendee.name}} {{placeholder "name"}}/>
-</p>
+
 <div id='address'>
 	<p id='country'>
 		Country:</br>
@@ -40,6 +50,18 @@
 		</p>
 	</div>
 </div>
+<p>
+	Invite to Manglik Prasang 
+	<input name="invitedtomanglik" value="true" type="checkbox" {{checked attendee.invitedtomanglik}}/>
+</p>
+<p>
+	Invite to Mehndi
+	<input name="invitedtomehndi" value="true" type="checkbox" {{checked attendee.invitedtomehndi}}/>
+</p>
+<p>
+	Invite to Wedding
+	<input name="invitedtowedding" value="true" type="checkbox" {{checked attendee.invitedtowedding}}/>
+</p>
 <p>
 	<input type='submit' value="Submit">
 	<span id='thanks' style="display:none">Thank you!</span>
