@@ -6,7 +6,15 @@ var express = require('express'),
 	port = process.env.PORT || 3000, 
 	client,
 	str = require('./escapestr').str,
-	connect = require('connect');
+	connect = require('connect'),
+	tf = function(value){
+		return (value || "").toLowerCase() == "true" ? true : false
+	},
+  	tfn = function(value){
+  		return value == "true" ? true : (
+  	 			value === "false" ?
+  	 			false : 'null' )
+  	}
 
 client = new pg.Client(connectionString);
 client.connect();
@@ -43,6 +51,8 @@ app.get('/attendee', function(req, res){
 	}
 })
 
+
+
 app.get('/attendees', function(req, res) {
   
   var query = client.query('SELECT * FROM attendees'),
@@ -52,55 +62,117 @@ app.get('/attendees', function(req, res) {
     attendees.push(result)
   });
   query.on('end', function(){
-    res.render('page.ejs', {
-	  layout:false,
-	  locals: {attendees:attendees}
-	});
+    res.send(attendees)
   });
 });
 
+app.post('/attendees/:id/destroy',function(req, res){
+	var query = client.query('DELETE FROM attendees WHERE id = $1',[req.params.id]);
+		query.on('end', function(result){
+			
+			if(result){
+				res.send({});
+			} else {
+				res.send(500,{});
+			}
+			
+		})
+})
 
+app.get('/attendees/:id/edit',function(req, res){
 
-app.post('/attendee', function(req, res) {
+	var query = client.query('SELECT * FROM attendees WHERE id = $1',[req.params.id]);
+		query.on('row', function(result){
+			
+			if(result){
+				res.send(result);
+			} else {
+				res.send({});
+			}
+			
+		})
+})
+
+var props = {
+	name:  str,
+	street: str,
+	apt: function(apt){  return apt ? str(apt) : 'null'},
+	city: str,
+	state: str,
+	zip: str,
+	country: str,
+	attending: tfn,
+	headofhouseid: function(id){ return id ? +id : "null"},
+	invitedtomanglik: tf,
+	comingtomanglik: tfn,
+	
+	invitedtomehndi: tf,
+	comingtomehndi: tfn,
+	
+	invitedtowedding: tf,
+	comingtowedding: tfn
+
+},
+	processReq = function(req){
+		var propertyNames = [],
+			values = [];
+		for(var prop in props) {
+			if(req.body[prop] !== undefined){
+				console.log(prop,req.body[prop], props[prop](req.body[prop]) )
+				propertyNames.push(prop);
+				values.push( props[prop](req.body[prop]) )
+			}
+		}
+		return {
+			properties: propertyNames,
+			values: values
+		}
+	}
+
+app.post('/attendees/:id',function(req, res){
+	var processed = processReq(req)
   
-  var propertyNames = ["name","street","apt",
-	  	 "city","state","zip","country","attending"],
-  	 values = [
-	  	 	str(req.body.name),
-	  	 	str(req.body.street),
-	  	 	req.body.apt? str(req.body.apt) : 'null',
-	  	 	str(req.body.city),
-	  	 	str(req.body.state),
-	  	 	str(req.body.zip),
-	  	 	str(req.body.country),
-	  	 	req.body.attending == "true" ? true : (
-	  	 			req.body.attending === "false" ?
-	  	 			false : 'null' )
-	  	 	]
-  
-  if( req.session.attendeeId ){
-  	var sql = 'UPDATE attendees SET '+
+	var propertyNames = processed.properties,
+		values = processed.values;
+		
+	var sql = 'UPDATE attendees SET '+
 	  	propertyNames.map(function(name, i){
 	  		return name +" = "+values[i]
 	  	}).join(",")+ 
-	  	" WHERE id = "+req.session.attendeeId+
-	  	" RETURNING id"
-  } else {
+	  	" WHERE id = "+req.params.id+
+	  	" RETURNING id";
+	
+	console.log(sql)
+		
+	client.query(sql,function(err, result){
+		
+  		console.log(err)
+	  	var id = result.rows[0].id;
+	  	res.send({})
+	});
+	
+})
+
+app.post('/attendee', function(req, res) {
+  
+	var processed = processReq(req)
+  
+	var propertyNames = processed.properties,
+		values = processed.values;
+  
+
   	var sql = 'INSERT INTO attendees ('+
 	  	propertyNames.join(",") +
 	  	 ") VALUES("+
 	  	 	values.join(",")+
-	  	 ") RETURNING id"
-	  
-	  
-  }
-  console.log(sql)
-  client.query(sql,function(err, result){
+	  	 ") RETURNING id";
+	  	 
+	console.log(sql)
+	client.query(sql,function(err, result){
   	
-  	var id = result.rows[0].id;
-  	req.session.attendeeId = id;
-  	res.send({id: id})
-  })
+	  	var id = result.rows[0].id;
+	  	res.send({id: id})
+	});
 })
 
 

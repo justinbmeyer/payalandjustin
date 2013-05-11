@@ -204,6 +204,9 @@ InlineTextEdit = can.Control({
 (function(){
 	
 var FadeInWhen = can.Control({
+	setup: function(){
+		return can.Control.prototype.setup.apply(this, arguments)
+	},
 	init: function(){
 		if(this.options.value()){
 			this.element.show();
@@ -293,6 +296,13 @@ AttendeeControl = can.Control({
 		var countryNames = function(){
 			return names[(attendee.attr('country')).toLowerCase()]
 		};
+		cityOrState = can.compute(function(){
+				return attendee.attr('state') || 
+				       attendee.attr('city') || 
+				       (attendee.attr('country') && 
+				        attendee.attr('country') !== "USA" )
+			})
+			
 		
 		el.html(can.view("attendee.mustache",{
 			attendee: attendee,
@@ -302,12 +312,7 @@ AttendeeControl = can.Control({
 			zipPlaceholder: can.compute(function(){
 				return countryNames().zip
 			}),
-			cityOrStateSetOrCountryNotUSA: can.compute(function(){
-				return attendee.attr('state') || 
-				       attendee.attr('city') || 
-				       (attendee.attr('country') && 
-				        attendee.attr('country') !== "USA" )
-			}),
+			cityOrStateSetOrCountryNotUSA: cityOrState,
 			attendees: this.options.attendees
 		}));
 			

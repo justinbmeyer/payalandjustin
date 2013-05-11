@@ -25,6 +25,7 @@
 								<%= attendee.city %>, <%= attendee.state %> <%= attendee.zip %></br>
 								<%= attendee.country %>
 						</td>
+						<td><a href="/attendees/<%= attendee.id%>/edit">edit</a></td>
 					</tr>
 				<% }) %>
 			</tbody>

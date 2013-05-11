@@ -36,6 +36,9 @@
 	td {
 		border-right: 1px solid #E9E9E9;
 	}
+	.error {
+		border: solid 1px red;
+	}
 </style>
 </head>
 <body>
@@ -121,7 +124,7 @@
 </select>
 </script>
 	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
-	<script src='can.custom.js'></script>
+	<script src='can.jquery-all.js'></script>
 	<script src='lib.js'></script>
 	<script>
 		var attendees = new Attendee.List();
@@ -239,7 +242,7 @@
 			}
 		})
 		
-		new AttendeesControl("#attendees")
+		
 		
 		
 		Attendee.bind("created",function(ev, newAttendee){
@@ -268,6 +271,7 @@
 			}
 			setup();
 			
+			new AttendeesControl("#attendees")
 			
 		})
 	</script>
