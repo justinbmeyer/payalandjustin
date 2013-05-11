@@ -29,6 +29,10 @@
 	    text-align: left;
 	    vertical-align: middle;
 	}
+	table tfoot td, table tfoot tr:nth-child(2n) td {
+	    background: linear-gradient(#D9D9D9 0%, #E9E9E9 100%) repeat scroll 0 0 #E9E9E9;
+	    border-color: #CCCCCC;
+	}
 	th.blank{
 		border: none;
 		background: none;
@@ -66,6 +70,7 @@
 	</thead>
 	<tbody id='attendees'>
 	</tbody>
+	<tfoot id='totals'></tfoot>
 </table>
 <h2>New Attendee</h2>
 <div id='wrapper'>
@@ -123,6 +128,22 @@
 	{{/}}
 </select>
 </script>
+<script type='text/ejs' id='totalsTemplate'>
+	<tr>
+		<td><%= total() %></td>
+		<td></th>
+		<td><%= attending() %></td>
+		<td></td>
+		<td><%= invitedtomanglik() %></td>
+		<td><%= comingtomanglik() %></td>
+		<td><%= invitedtomehndi() %></td>
+		<td><%= comingtomehndi() %></td>
+		<td><%= invitedtowedding() %></td>
+		<td><%= comingtowedding() %></td>
+	</tr>
+</script>
+
+
 	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
 	<script src='can.jquery-all.js'></script>
 	<script src='lib.js'></script>
@@ -137,7 +158,39 @@
 				
 			})
 			return heads
+		};
+		
+		countTrue = function(prop){
+			return function(){
+				var count = 0;
+				attendees.each(function(attendee){
+					if( attendee.attr(prop) ) {
+						count++;
+					}
+				})
+				return count;
+			}
 		}
+		
+		var props = ["attending",
+		 "invitedtomanglik","comingtomanglik",
+		 "invitedtomehndi","comingtomehndi",
+		 "invitedtowedding","comingtowedding"];
+		var totals = {};
+		can.each(props, function(name){
+			totals[name] = countTrue(name)
+		})
+		totals.total = function(){
+			return attendees.attr('length')
+		}
+		
+		
+		
+		$("#totals").html(
+			can.view("totalsTemplate",totals)
+		)
+		
+		
 		var byId = {};
 		var sorted = Attendee.findAll({},function(attendees){
 			// hack to get stuff in the store
@@ -237,7 +290,7 @@
 		})
 		attendees.bind("change",function(ev, attr, how){
 			var props = attr.split(".");
-			if(props[1] && /invitedto|comingto|name/.test(props[1])){
+			if(props[1] && /invitedto|comingto|name|attending/.test(props[1])){
 				attendees.attr(props[0]).save()
 			}
 		})
