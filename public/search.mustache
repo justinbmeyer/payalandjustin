@@ -1,9 +1,9 @@
 <input name="search" {{placeholder "Search for your name"}}/>
-<ul>
+<ul class="dropdown-menu" role="menu">
 	{{#results.length}}
 		{{#results}}
 			<li {{data 'result'}}>
-				{{text}}
+				<a href="javascript://">{{text}}</a>
 			</li>
 		{{/}}
 	{{/results.length}}

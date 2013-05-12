@@ -46,7 +46,10 @@
 </style>
 </head>
 <body>
-	
+<h2>New Attendee</h2>
+<div id='wrapper'>
+</div>
+<h2>Attendees</h2>
 <table cellspacing="0">
 	<thead>
 		<tr>
@@ -72,10 +75,7 @@
 	</tbody>
 	<tfoot id='totals'></tfoot>
 </table>
-<h2>New Attendee</h2>
-<div id='wrapper'>
-</div>
-	
+
 <script type='text/ejs' id='listEJS'>
 	
 	<% this.each(function(attendee){ %>
@@ -299,7 +299,7 @@
 		
 		
 		Attendee.bind("created",function(ev, newAttendee){
-			attendees.push(newAttendee)
+			attendees.unshift(newAttendee)
 		})
 		
 		$(function(){

@@ -1,25 +1,27 @@
-<table>
+<p>Please check the boxes for the events you will be attending and click the submit button:</p>
+
+<table class='table'>
 	<thead>
 		<tr class='dates'>
-			<th></th>
+			<th class='empty'></th>
 			{{#dates}}
-				<th colspan="{{count}}">
+				<th colspan="{{count}}" class="day{{day}}">
 					{{date}}
 				</th>
 			{{/dates}}
 		</tr>
 		<tr class='times'>
-			<th></th>
+			<th class='empty'></th>
 			{{#events}}
-				<th>
+				<th class="day{{day}}">
 					{{time date}}
 				</th>
 			{{/events}}
 		</tr>
 		<tr class='titles'>
-			<th></th>
+			<th class='empty'></th>
 			{{#events}}
-				<th>
+				<th class="day{{day}}">
 					{{title}}
 				</th>
 			{{/events}}
@@ -31,7 +33,7 @@
 			<tr {{data "attendee"}}>
 				<td>{{name}}</td>
 				{{#events}}
-					<td>
+					<td class='{{status attendee}} day{{day}} event-attendence {{name}}'>
 						{{{rsvp attendee}}}
 					</td>
 				{{/events}}
@@ -41,4 +43,6 @@
 	</tbody>
 
 </table>
-<input type="submit" value="RSVP" id='rsvp'/>
+
+<input type="submit" value="Submit RSVP" id='rsvp-button' class='btn btn-large btn-primary'/>
+<span class='success' id='thankyou' style="display:none">Thank you for RSVPing.</span>
