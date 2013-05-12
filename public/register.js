@@ -158,17 +158,17 @@ can.Mustache.registerHelper('time', function(date){
 })
 can.Mustache.registerHelper('rsvp', function(attendee){
 	var name = this.name,
-		coming = true;
+		coming = false;
 	if( !attendee.attr("invitedto"+name) ){
 		return ""
 	}
 	var checkbox = "<input type='checkbox' name='"+name+"' ";
 	if( attendee.attr("comingto"+name) === true){
-		
+		coming = true
 	} else if( attendee.attr("comingto"+name) === false ){
 		coming = false
-	} else if( attendee.attr("attending") === false ) {
-		coming = false
+	} else if( attendee.attr("attending") === true ) {
+		coming = true
 	} else {
 
 	}
@@ -188,17 +188,17 @@ can.Mustache.registerHelper('rsvp', function(attendee){
 
 can.Mustache.registerHelper('status', function(attendee){
 	var name = this.name,
-		coming = true;
+		coming = false;
 	if( !attendee.attr("invitedto"+name) ){
 		return "na"
 	}
 	
 	if( attendee.attr("comingto"+name) === true){
-		
+		coming = true
 	} else if( attendee.attr("comingto"+name) === false ){
 		coming = false
-	} else if( attendee.attr("attending") === false ) {
-		coming = false
+	} else if( attendee.attr("attending") === true ) {
+		coming = true
 	} else {
 
 	}
