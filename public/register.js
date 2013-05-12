@@ -83,7 +83,7 @@ Attendee.findAll({}, function(attendees){
 		return families[id];
 	};
 	attendees.each(function(attendee){
-		if(typeof attendee.headofhouseid == 'number'){
+		if(typeof attendee.headofhouseid == 'number' && attendee.headofhouseid !== attendee.id){
 			makeById(attendee.headofhouseid).children.push(attendee)
 		} else {
 			makeById(attendee.id).head = attendee
