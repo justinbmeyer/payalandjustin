@@ -307,7 +307,11 @@
 			var setup =  function(){
 				$("#wrapper").html("<form action='/attendees' method='post' id='create_attendee'></form>")
 
-				var newAttendee = new Attendee({});
+				var newAttendee = new Attendee({
+					invitedtomanglik: false,
+					invitedtomehndi: false,
+					invitedtowedding: true
+				});
 			
 				var control = new AttendeeControl("#create_attendee",{
 					attendee: newAttendee,
