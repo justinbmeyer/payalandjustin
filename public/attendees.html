@@ -303,14 +303,15 @@
 					attendees: attendees
 				})
 				
-				Attendee.bind("created",function(){
-
-					setTimeout(function(){
-						setup()
-					},1)
-					
-				})
+				
 			}
+			Attendee.bind("created",function(){
+
+				setTimeout(function(){
+					setup()
+				},1)
+				
+			})
 			setup();
 			
 			new AttendeesControl("#attendees")
