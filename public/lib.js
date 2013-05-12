@@ -172,6 +172,7 @@ can.Mustache.registerHelper('value', function(value){
 
 InlineTextEdit = can.Control({
 	init: function(){
+		this.element.addClass('inline-edit');
 		if(this.element.prop('nodeName').toUpperCase() === "SELECT"){
 			// need to wait until end of turn ...
 			setTimeout($.proxy(this.set,this),1)
@@ -182,11 +183,16 @@ InlineTextEdit = can.Control({
 	},
 	"{value} change": "set",
 	set: function(){
-		this.element.text(this.options.value())
+		var val = this.options.value();
+		if(val){
+			this.element.text(val)
+		} else {
+			this.element.html("&nbsp;&nbsp;&nbsp;")
+		}
 	},
 	"click": function(el, ev){
 		if(ev.target.nodeName.toLowerCase() != "input"){
-			var input = $("<input type='text' value='"+this.options.value()+"'/>");
+			var input = $("<input type='text' value='"+(this.options.value()||'')+"'/>");
 			this.element.html(input);
 			setTimeout(function(){
 				

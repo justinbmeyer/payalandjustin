@@ -1,68 +1,97 @@
-<p>
-	<input name="name" {{value attendee.name}} {{placeholder "name"}}/> 
-	(Editable <input name="editableName" value="true" type="checkbox" {{checked attendee.editableName}}/>)
-</p>
-<p>
-	Primary: 
-	<select name="headofhouseid" {{value attendee.headofhouseid}}>
-		{{#attendees.heads}}
-			<option value="{{id}}">{{name}}</option>
-		{{/}}
-	</select>
-</p>
-<p id='attending'>
-	Can they make it? 
-	<input name="attending" value="true" type="radio" id="available" {{checked attendee.attending}}/>
-	<label for='available'>Yes</label>
-	<input name="attending" value="false" type="radio" id='notavailable' {{checked attendee.attending}}/> 
-	<label for='notavailable'>No</label>.
-</p>
-
-<div id='address'>
-	<p id='country'>
-		Country:</br>
-		<input name="country" value="USA" type="radio" id='usa' {{checked attendee.country}} /> 
-		<label for='usa'>USA</label>
-		<input name="country" value="India" type="radio" id='india' {{checked attendee.country}}/> 
-		<label for='india'>India</label>
-		<input name="country" value="Canada" type="radio" id='canada' {{checked attendee.country}}/>
-		<label for='canada'>Canada</label>
-	</p>
-	
-	
-	<div id='street'>
-		<p>
-			<input name="street" {{value attendee.street}} {{placeholder "street"}}/>
-			<input name="apt" {{value attendee.apt}} {{placeholder "apt"}}/>
-		</p>
-		<p id='location-units'>
-			<input name="city" 
-			   {{value attendee.city}} 
-			   {{fadeInWhen cityOrStateSetOrCountryNotUSA}}
-			   {{placeholder "city" attendee.city}}/>
-			<input name="state" 
-				{{value attendee.state}} 
-				{{fadeInWhen cityOrStateSetOrCountryNotUSA}}
-				{{placeholder statePlaceholder attendee.state}}/>
-			<input name="zip" 
-				{{value attendee.zip}} 
-				{{placeholder zipPlaceholder}}/>
-		</p>
+<div class="control-group">
+	<label class="control-label" for="name">Name</label>
+	<div class="controls">
+		<input name="name" {{value attendee.name}} {{placeholder "name"}} type='text'/> 
+		(Editable <input name="editablename" value="true" type="checkbox" {{checked attendee.editablename}}/>)
 	</div>
 </div>
-<p>
-	Invite to Manglik Prasang 
-	<input name="invitedtomanglik" value="true" type="checkbox" {{checked attendee.invitedtomanglik}}/>
-</p>
-<p>
-	Invite to Mehndi
-	<input name="invitedtomehndi" value="true" type="checkbox" {{checked attendee.invitedtomehndi}}/>
-</p>
-<p>
-	Invite to Wedding
-	<input name="invitedtowedding" value="true" type="checkbox" {{checked attendee.invitedtowedding}}/>
-</p>
-<p>
-	<input type='submit' value="Submit">
+<div class="control-group">
+	<label class="control-label">Head of House</label>
+	<div class="controls">
+		<select name="headofhouseid" {{value attendee.headofhouseid}}>
+			{{#attendees.heads}}
+				<option value="{{id}}">{{name}}</option>
+			{{/}}
+		</select>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">Atending?</label>
+	<div class="controls">
+		<label for='available' class='radio inline'>
+			<input name="attending" value="true" type="radio" id="available" {{checked attendee.attending}}/>
+			Yes
+		</label>
+		<label for='notavailable'  class='radio inline'>
+			<input name="attending" value="false" type="radio" id='notavailable' {{checked attendee.attending}}/> 
+			No
+		</label>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">Country</label>
+	<div class="controls">
+		
+		<label for='usa' class='radio inline'>
+			<input name="country" value="USA" type="radio" id='usa' {{checked attendee.country}} />  
+			USA
+		</label>
+		<label for='india' class='radio inline'>
+			<input name="country" value="India" type="radio" id='india' {{checked attendee.country}}/> 
+			India
+		</label>
+		
+		<label for='canada' class='radio inline'>
+			<input name="country" value="Canada" type="radio" id='canada' {{checked attendee.country}}/>
+			Canada
+		</label>
+	</div>
+</div>
+<div class="control-group" id='address'>
+	<label class="control-label">Address</label>
+	<div class="controls">
+		<div id='street'>
+			<p>
+				<input name="street" {{value attendee.street}} {{placeholder "street"}}  type='text'/>
+				<input name="apt" {{value attendee.apt}} {{placeholder "apt"}}  type='text'/>
+			</p>
+			<p id='location-units'>
+				<input name="city" type='text'
+				   {{value attendee.city}} 
+				   {{fadeInWhen cityOrStateSetOrCountryNotUSA}}
+				   {{placeholder "city" attendee.city}}/>
+				<input name="state"  type='text'
+					{{value attendee.state}} 
+					{{fadeInWhen cityOrStateSetOrCountryNotUSA}}
+					{{placeholder statePlaceholder attendee.state}}/>
+				<input name="zip"  type='text'
+					{{value attendee.zip}} 
+					{{placeholder zipPlaceholder}}/>
+			</p>
+		</div>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">Invited to</label>
+	<div class="controls">
+		<label class='radio inline'>
+			<input name="invitedtomanglik" value="true" type="checkbox" {{checked attendee.invitedtomanglik}}/>
+			Manglik Prasang 
+		 </label>
+		 <label class='radio inline'>
+			<input name="invitedtomehndi" value="true" type="checkbox" {{checked attendee.invitedtomehndi}}/>
+			Mehndi 
+		 </label>
+		 <label class='radio inline'>
+			<input name="invitedtowedding" value="true" type="checkbox" {{checked attendee.invitedtowedding}}/>
+			Wedding 
+		 </label>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label"></label>
+	<div class="controls">
+	<input type='submit' value="Create" class='btn'>
 	<span id='thanks' style="display:none">Thank you!</span>
-</p>
+	</div>
+</div>

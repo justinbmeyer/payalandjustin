@@ -190,7 +190,7 @@ can.Mustache.registerHelper('status', function(attendee){
 	var name = this.name,
 		coming = true;
 	if( !attendee.attr("invitedto"+name) ){
-		return ""
+		return "na"
 	}
 	
 	if( attendee.attr("comingto"+name) === true){
@@ -278,8 +278,25 @@ var RegisterFamily = can.Control({
 			}
 		}
 		
+		var instructions = can.compute(function(){
+			var guests = 0;
+			can.each(family,function(attendee){
+				if(attendee.attr('name').toLowerCase() == "guest"){
+					guests++;
+				}
+			})
+			
+			if(guests){
+				return "Please name your "+(guests>1 ? "guests":"guest")+", check the boxes for the events you will be attending and click the submit button:"
+			} else {
+				return "Please check the boxes for the events you will be attending and click the submit button:"
+			}
+			
+		})
+		
 		this.element.html(
 			can.view("register.mustache",{
+				instructions: instructions,
 				family: can.map(family, function(attendee){
 					return {attendee: attendee}
 				}),
@@ -289,6 +306,9 @@ var RegisterFamily = can.Control({
 		);
 	},
 	".event-attendence click": function(el){
+		if(el.hasClass('na')){
+			return;
+		}
 		var attendee = el.closest('tr').data('attendee')
 		var prop = el.find('input').attr("name"),
 			cur = el.hasClass('success');
@@ -313,6 +333,18 @@ var RegisterFamily = can.Control({
 				},2000)
 			})
 		})
+	},
+	".name-value click": function(el, ev){
+		el.hide();
+		if( el.next().val().toLowerCase() == "guest" ){
+			el.next().val("")
+		}
+		
+		el.next().show().focus()
+	},
+	".name-edit focusout": function(el){
+		el.hide();
+		el.prev().show()
 	}
 })
 

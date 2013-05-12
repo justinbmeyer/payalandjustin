@@ -1,6 +1,6 @@
-<p>Please check the boxes for the events you will be attending and click the submit button:</p>
+<p>{{instructions}}</p>
 
-<table class='table'>
+<table class='table span12'>
 	<thead>
 		<tr class='dates'>
 			<th class='empty'></th>
@@ -31,7 +31,17 @@
 		{{#family}}
 		 	{{#attendee}}
 			<tr {{data "attendee"}}>
-				<td>{{name}}</td>
+				<td {{#editablename}}class='editable'{{/editablename}}>
+					{{#editablename}}
+						<div class='name-value'>
+							<span>{{name}}</span> <span class='icon-pencil'></span>
+						</div>
+						<input type='text' {{value name}} style="display:none" class='name-edit'/>
+					{{/editablename}}
+					{{^editablename}}
+						<span>{{name}}</span>
+					{{/editablename}}
+				</td>
 				{{#events}}
 					<td class='{{status attendee}} day{{day}} event-attendence {{name}}'>
 						{{{rsvp attendee}}}

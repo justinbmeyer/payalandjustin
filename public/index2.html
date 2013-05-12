@@ -26,17 +26,73 @@
 		.times th, .dates th {
 			font-weight: normal;
 		}
-		.event-attendence {
+		td.success, td.error, .editable {
 			cursor: pointer;
+		}
+		td.na {
+			background-color: #dddddd;
 		}
 		span.success {
 			color: #468847;
 		}
+		div.mehndi {
+			background-color: #dff0d8;
+			border: solid 1px #d6e9c6;
+		}
+		#rsvp {
+			border: solid 1px #fbeed5;
+		}
+		div.manglik {
+			background-color: #fcf8e3;
+			border: solid 1px #fbeed5;
+		}
+		div.baraat {
+			background-color: #d9edf7;
+			border: solid 1px #bce8f1;
+		}
+		div.wedding {
+			background-color: #f2dede;
+			border: solid 1px #eed3d7;
+		}
+		.border-radius3 {
+			-moz-border-radius: 5px;
+		    -webkit-border-radius: 5px;
+		    -khtml-border-radius: 5px;
+		    border-radius: 5px;
+		    padding: 0px 35px 8px 14px;
+		}
+		.table .editable {
+			width: 150px;
+			padding: 0px;
+		}
+		.editable .name-value{
+			border: solid 1px white;
+			padding: 7px;
+		}
+		.editable .name-value:hover {
+			border: solid 1px #bce8f1;
+		}
+		.table .editing {
+			padding: 0px;
+		}
+		.table .editable input {
+			margin: 0px;
+		}
+		.name-edit[type=text], .name-edit {
+			-moz-border-radius: 0px;
+		    -webkit-border-radius: 0px;
+		    -khtml-border-radius: 0px;
+		    border-radius: 0px;
+		    border: none;
+		    padding: 7px;
+		    width: 135px;
+		}
+		
 	</style>
 </head>
 <body>
 	<div id='background'></div>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row-fluid">
 			<div class="span12">
 				<h1>Payal and Justin's Wedding</h1>
@@ -50,39 +106,48 @@
 			</div>
 			<div class="span10" id='contents'>
 				<div id="events">
-					<h3>Manglik Prasang</h3>
-					<div class='offset1'>
-						<p>Friday, Aug. 9th 2013 @ 10:30 am</p>
-						<p>Shah Residence</p>
-						<p>1379 Saint Claire Place</p>
-						<p>Schaumburg, IL 606173</p>
+					<div class='manglik border-radius3'>
+						<h3>Manglik Prasang</h3>
+						<div class='offset1'>
+							<p>Friday, Aug. 9th @ 10:30 am</p>
+							<p>Shah Residence, 1379 Saint Claire Place, Schaumburg, IL 606173
+								<a href="https://maps.google.com/maps?q=1379+Saint+Claire+Place,+Schaumburg,+IL+606173&hnear=1379+St+Claire+Pl,+Schaumburg,+Cook,+Illinois+60173&gl=us&t=m&z=16">map</a>
+							</p>
+						</div>
 					</div>
-					<h3>Mehndi</h3>
-					<div class='offset1'>
-						<p>Friday, Aug. 9th 2013 @ 5:30 pm - 9:30 pm</p>
-						<p> </p>
-						<p>Fox Run Golf Links</p>
-						<p>333 Plum Grove Road</p>
-						<p>Elk Grove Village, IL 60007</p>
+					<div class='mehndi border-radius3'>
+						<h3>Mehndi</h3>
+						<div class='offset1'>
+							<p>Friday, Aug. 9th @ 5:30 pm - 9:30 pm</p>
+							<p>Fox Run Golf Links,
+								333 Plum Grove Road,
+								Elk Grove Village, IL 60007
+								<a href="https://maps.google.com/maps?q=Fox+Run+Golf+Links,+%09%09%09%09%09%09%09333+Plum+Grove+Road,+%09%09%09%09%09%09%09Elk+Grove+Village,+IL+60007&hl=en&ll=42.01442,-88.060269&spn=0.042885,0.093513&sll=42.028979,-88.046404&sspn=0.021438,0.046756&gl=us&hq=Fox+Run+Golf+Links,+%09%09%09%09%09%09%09333+Plum+Grove+Road,+%09%09%09%09%09%09%09Elk+Grove+Village,+IL+60007&radius=15000&t=m&z=15">map</a>
+							</p>
+						</div>
 					</div>
-					<h3>Baraat / Groom's Procession</h3>
-					<div class='offset1'>
-						<p>Saturday, Aug. 10th 2013 @ 4:00pm</p>
-						<address>
-							<span class='street'>The corner of Congress Pkwy. and Plymouth Ct.,</span> <span class='locale'>Chicago, IL 60605</span>
-							<a href="https://maps.google.com/maps?q=W+Congress+Pkwy+%26+S+Plymouth+Ct+Chicago,+IL+60605&hnear=W+Congress+Pkwy+%26+S+Plymouth+Ct,+Chicago,+Cook,+Illinois+60605&gl=us&t=m&z=16">map</a>
-						</address>
-						<p>The corner of Congress Pkwy. and Plymouth Ct.</p>
-						<p>Chicago, IL 60605</p>
+					<div class='baraat border-radius3'>
+						<h3>Baraat / Groom's Procession</h3>
+						<div class='offset1'>
+							<p>Saturday, Aug. 10th @ 4:00pm</p>
+							<address>
+								<span class='street'>The corner of Congress Pkwy. and Plymouth Ct.,</span> <span class='locale'>Chicago, IL 60605</span>
+								<a href="https://maps.google.com/maps?q=W+Congress+Pkwy+%26+S+Plymouth+Ct+Chicago,+IL+60605&hnear=W+Congress+Pkwy+%26+S+Plymouth+Ct,+Chicago,+Cook,+Illinois+60605&gl=us&t=m&z=16">map</a>
+							</address>
+						</div>
 					</div>
-					<h3>Wedding</h3>
-					<div class='offset1'>
-						<p>Saturday, Aug. 10th 2013</p>
-						<p>401 S. Plymouth Court</p>
-						<p>Chicago, IL 60605</p>
+					<div class='wedding border-radius3'>
+						<h3>Wedding</h3>
+						<div class='offset1'>
+							<p>Saturday, Aug. 10th @ immediately after the Baraat</p>
+							<p>Harold Washington Library, 401 S. Plymouth Court, Chicago, IL 60605
+								<a href="https://maps.google.com/maps?q=401+S.+Plymouth+Court,+Chicago,+IL+60605&hl=en&hnear=401+S+Plymouth+Ct,+Chicago,+Cook,+Illinois+60605&gl=us&t=m&z=16">map</a>	
+							</p>
+						</div>
 					</div>
+					
 				</div>
-				<div id='rsvp'>
+				<div id='rsvp' class='border-radius3'>
 					<h3>RSVP</h3>
 						<div class="input-prepend">
 							<span class="add-on"><i class="icon-search" id='searchIcon'></i></span>

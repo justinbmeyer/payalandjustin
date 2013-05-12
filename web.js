@@ -110,7 +110,8 @@ var props = {
 	comingtomehndi: tfn,
 	
 	invitedtowedding: tf,
-	comingtowedding: tfn
+	comingtowedding: tfn,
+	editablename: tf
 
 },
 	processReq = function(req){
