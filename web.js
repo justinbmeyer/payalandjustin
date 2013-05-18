@@ -14,7 +14,8 @@ var express = require('express'),
   		return value == "true" ? true : (
   	 			value === "false" ?
   	 			false : 'null' )
-  	}
+  	},
+  	csv = require('csv')
 
 client = new pg.Client(connectionString);
 client.connect();
@@ -28,12 +29,15 @@ app.configure(function(){
 	app.use( express.static( __dirname + '/public') );
 })
 
-app.get('/', function(req, res){
+/*app.get('/', function(req, res){
 	res.render('index.ejs', {
 			  layout:false
 	});
 	
-});
+});*/
+
+
+
 
 app.get('/attendee', function(req, res){
 	if(req.session.attendeeId){
@@ -174,6 +178,69 @@ app.post('/attendee', function(req, res) {
 	  	var id = result.rows[0].id;
 	  	res.send({id: id})
 	});
+})
+
+
+var prettyName = function(family){
+	var attendees = [family.head].concat(family.children);
+	if(attendees.length == 1){
+		return attendees[0].name
+	}
+	var last = attendees.pop();
+	return attendees.map(function(attendee){
+		return attendee.name || "Guest";
+	}).join(", ")+" and "+last.name
+}
+
+app.get('/attendees.csv',function(req, res){
+	res.setHeader('Content-disposition', 'attachment; filename=attendees.csv'); 
+	
+	res.writeHead(200, {
+        'Content-Type': 'text/csv'
+    });
+    
+	var query = client.query('SELECT * FROM attendees'),
+		attendees = [];
+  
+	query.on('row', function(result) {
+	    attendees.push(result)
+	});
+	query.on('end', function(){
+		
+		var families = {};
+		var makeById = function(id){
+			if( !families[id] ) {
+				families[id] = {children: []}
+			}
+			return families[id];
+		};
+		
+		attendees.forEach(function(attendee){
+			if(typeof attendee.headofhouseid == 'number'){
+				makeById(attendee.headofhouseid).children.push(attendee)
+			} else {
+				makeById(attendee.id).head = attendee
+			}
+		})
+		var familyData = [];
+		for( var headId in families ) {
+			var fam = families[headId];
+			
+			familyData.push({
+				name: prettyName(fam),
+				street: fam.head.street,
+				apt: fam.head.apt,
+				city: fam.head.city,
+				zip: fam.head.zip,
+				country: fam.head.country
+			})
+		}
+		
+	    csv().from.array(familyData).to(res)
+	});
+    
+    
+	
 })
 
 

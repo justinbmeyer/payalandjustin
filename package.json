@@ -5,7 +5,8 @@
     "express": "2.5.x",
     "pg": "0.6.15",
     "ejs": "latest",
-    "connect": "2.x"
+    "connect": "2.x",
+    "csv": "0.2.x"
   },
   "engines": {
     "node": "0.8.x",

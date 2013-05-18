@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Payal and Justin's Wedding</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<style>
+		td.success {
+			background-color: #DFF0D8;
+		}
+		td.error {
+			background-color: #F2DEDE;
+		}
+		th.day1 {
+			background-color: #f9f9f9;
+		}
+		th.day2 {
+			background-color: #f9f9f9/*#fcf8e3*/;
+		}
+		th.empty {
+			border: none;
+		}
+		td.day2, th.day2, td.mehndi{
+			border-left: 1px solid #DDDDDD;
+		}
+		.times th, .dates th {
+			font-weight: normal;
+		}
+		td.success, td.error, .editable {
+			cursor: pointer;
+		}
+		td.na {
+			background-color: #dddddd;
+		}
+		span.success {
+			color: #468847;
+		}
+		div.mehndi {
+			background-color: #dff0d8;
+			border: solid 1px #d6e9c6;
+		}
+		#rsvp, #parking {
+			border: solid 1px #fbeed5;
+		}
+		div.manglik {
+			background-color: #fcf8e3;
+			border: solid 1px #fbeed5;
+		}
+		div.baraat {
+			background-color: #d9edf7;
+			border: solid 1px #bce8f1;
+		}
+		div.wedding {
+			background-color: #f2dede;
+			border: solid 1px #eed3d7;
+		}
+		.border-radius3 {
+			-moz-border-radius: 5px;
+		    -webkit-border-radius: 5px;
+		    -khtml-border-radius: 5px;
+		    border-radius: 5px;
+		    padding: 0px 35px 8px 14px;
+		}
+		.table .editable {
+			width: 150px;
+			padding: 0px;
+		}
+		.editable .name-value{
+			border: solid 1px white;
+			padding: 7px;
+		}
+		.editable .name-value:hover {
+			border: solid 1px #bce8f1;
+		}
+		.table .editing {
+			padding: 0px;
+		}
+		.table .editable input {
+			margin: 0px;
+		}
+		.name-edit[type=text], .name-edit {
+			-moz-border-radius: 0px;
+		    -webkit-border-radius: 0px;
+		    -khtml-border-radius: 0px;
+		    border-radius: 0px;
+		    border: none;
+		    padding: 7px;
+		    width: 135px;
+		}
+		
+	</style>
+</head>
+<body>
+	<div id='background'></div>
+	<div class="container">
+		<div class="row-fluid">
+			<div class="span12">
+				<h1>Payal and Justin's Wedding</h1>
+			</div>
+		</div>
+		<div class="row-fluid">
+    		<div class="span2">
+				<ul class="nav nav-pills nav-stacked" id='navigation'>
+				
+				</ul>
+			</div>
+			<div class="span10" id='contents'>
+				<div id="events" style="display:none">
+					<div class='manglik border-radius3'>
+						<h3>Manglik Prasang / Vidhi</h3>
+						<div class='offset1'>
+							<p>Friday, Aug. 9th @ 10:30 am</p>
+							<p>Shah Residence, 1379 Saint Claire Place, Schaumburg, IL 60173
+								<a href="https://maps.google.com/maps?q=1379+Saint+Claire+Place,+Schaumburg,+IL+606173&hnear=1379+St+Claire+Pl,+Schaumburg,+Cook,+Illinois+60173&gl=us&t=m&z=16">map</a>
+							</p>
+						</div>
+					</div>
+					<div class='mehndi border-radius3'>
+						<h3>Mehndi</h3>
+						<div class='offset1'>
+							<p>Friday, Aug. 9th @ 5:30 pm - 9:30 pm</p>
+							<p>Fox Run Golf Links,
+								333 Plum Grove Road,
+								Elk Grove Village, IL 60007
+								<a href="https://maps.google.com/maps?q=Fox+Run+Golf+Links,+%09%09%09%09%09%09%09333+Plum+Grove+Road,+%09%09%09%09%09%09%09Elk+Grove+Village,+IL+60007&hl=en&ll=42.01442,-88.060269&spn=0.042885,0.093513&sll=42.028979,-88.046404&sspn=0.021438,0.046756&gl=us&hq=Fox+Run+Golf+Links,+%09%09%09%09%09%09%09333+Plum+Grove+Road,+%09%09%09%09%09%09%09Elk+Grove+Village,+IL+60007&radius=15000&t=m&z=15">map</a>
+							</p>
+						</div>
+					</div>
+					<div class='baraat border-radius3'>
+						<h3>Baraat / Groom's Procession</h3>
+						<div class='offset1'>
+							<p>Saturday, Aug. 10th @ 4:00pm</p>
+							<address>
+								<span class='street'>On Plymouth Ct. between Congress Pkwy. and Jackson Blvd.</span> <span class='locale'>Chicago, IL 60605</span>
+								<a href="https://maps.google.com/maps?q=W+Congress+Pkwy+%26+S+Plymouth+Ct+Chicago,+IL+60605&hnear=W+Congress+Pkwy+%26+S+Plymouth+Ct,+Chicago,+Cook,+Illinois+60605&gl=us&t=m&z=16">map</a>
+							</address>
+						</div>
+					</div>
+					<div class='wedding border-radius3'>
+						<h3>Wedding / Reception</h3>
+						<div class='offset1'>
+							<p>Saturday, Aug. 10th @ immediately after the Baraat</p>
+							<p>Harold Washington Library, 401 S. Plymouth Court, Chicago, IL 60605
+								<a href="https://maps.google.com/maps?q=401+S.+Plymouth+Court,+Chicago,+IL+60605&hl=en&hnear=401+S+Plymouth+Ct,+Chicago,+Cook,+Illinois+60605&gl=us&t=m&z=16">map</a>	
+							</p>
+						</div>
+					</div>
+					
+				</div>
+				<div id='rsvp' class='border-radius3' style="display:none">
+					<h2>RSVP</h2>
+					<div class="input-prepend">
+						<span class="add-on"><i class="icon-search" id='searchIcon'></i></span>
+						<input name="search" id='search' type='text'/>
+					</div>
+					<form id='family-register' action=''></form>
+				</div>
+				<div id='parking' class='border-radius3' style="display:none">
+					<h2>Parking</h2>
+					<p> Park for <code>$11/day</code> a 1/2 block from the library from 1 p.m. - 1 a.m. on Saturday, August 10, 2013 at:
+						<div class='border-radius3 mehndi' style="padding-top: 8px">
+							<p style='margin-top: 10px'><a href="https://maps.google.com/maps?q=412+S.+Dearborn,+Chicago,+IL&hnear=412+S+Dearborn+St,+Chicago,+Cook,+Illinois+60605&gl=us&t=m&z=16">
+								412 S. Dearborn, Chicago, IL (USA Parking)
+							</a></p>
+						</div>
+						
+					</p>
+					<p>
+						<strong>Be sure to bring your invitation or map from the invite to receive the reduced $11 parking rate!</strong>
+					</p>
+					<p>
+						<a href="https://maps.google.com/maps?hl=en&ie=UTF-8&q=double+tree+hotel+schaumburg&fb=1&gl=us&hq=double+tree+hotel&hnear=0x880faf88436224e5:0x43bd31cd678f7351,Schaumburg,+IL&cid=0,0,4069256022739331130&ei=9y6VUdTMB4HQ0gH76IDoAQ&ved=0CLUBEPwSMAA">
+							Directions from parking lot to Harold Washington Library.
+						</a>
+					</p>
+					<img src="images/map.jpg" alt="Map of marking"/>
+				</div>
+				<div id='hotels' class='border-radius3' style="display:none">
+					<div class='manglik border-radius3'>
+						<h3>JW Marriott Chicago</h3>
+						<p>151 West Adams Street, Chicago, IL 60603 [1-866-270-6430]</p>
+						<p>
+							A block of rooms have been reserved for our guests at a discounted rate (<code>$209</code>). 
+							Please reference the Shah/Meyer wedding when making your reservations. 
+							Kindly reserve your room by <strong>July, 19, 2013</strong>.
+						</p>
+						<p><a href="https://resweb.passkey.com/Resweb.do?mode=welcome_ei_new&eventID=10412285" class="btn btn-primary">Book your room online.</a></p>
+						<p>
+							<a href="https://maps.google.com/maps?hl=en&ie=UTF-8&q=jw+marriott&fb=1&gl=us&hq=jw+marriott&hnear=0x880e2c3cd0f4cbed:0xafe0a6ad09c0c000,Chicago,+IL&cid=0,0,11485976730776753283&ei=NS-VUZPnHcXy0QHkz4BY&ved=0CMIBEPwSMAE">
+								Directions from the JW Marriott Hotel to Harold Washington Library.
+							</a>
+						</p>
+					</div>
+					<div  class='baraat border-radius3' style="display:none">
+						<h3>Double Tree Schaumburg</h3>
+						<p>800 National Parkway, Schaumburg, IL 60173 [847-605-9222]</p>
+						<p>
+							A block of rooms have been reserved for our guests at a discounted rate (<code>$69</code>). 
+							Please reference the Shah/Meyer wedding when making your reservations. 
+							Kindly reserve your room by <strong>July, 19, 2013</strong>.
+						</p>
+						<p>
+							<a href="https://maps.google.com/maps?hl=en&ie=UTF-8&q=double+tree+hotel+schaumburg&fb=1&gl=us&hq=double+tree+hotel&hnear=0x880faf88436224e5:0x43bd31cd678f7351,Schaumburg,+IL&cid=0,0,4069256022739331130&ei=9y6VUdTMB4HQ0gH76IDoAQ&ved=0CLUBEPwSMAA">
+								Directions from Double Tree to Shah Residence (Vidhi).
+							</a>
+						</p>
+						<p>
+							<a href="https://maps.google.com/maps?hl=en&ie=UTF-8&q=double+tree+hotel+schaumburg&fb=1&gl=us&hq=double+tree+hotel&hnear=0x880faf88436224e5:0x43bd31cd678f7351,Schaumburg,+IL&cid=0,0,4069256022739331130&ei=9y6VUdTMB4HQ0gH76IDoAQ&ved=0CLUBEPwSMAA">
+								Directions from Double Tree to Fox River Golf Links (Mehndhi).
+							</a>
+						</p>
+					</div>
+					
+				</div>
+				<div id='pictures' class='border-radius3' style="display:none">
+					
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+	<script src='can.jquery-all.min.js'></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script type='text/ejs' id='navEJS'>
+		<li <%= selected('events') %>><%== can.route.link("Events",{page: "events"}) %></li>
+		<li <%= selected('rsvp') %>><%== can.route.link("RSVP",{page: "rsvp"}) %></li>
+		<li <%= selected('parking') %>><%== can.route.link("Parking",{page: "parking"}) %></li>
+		<li <%= selected('hotels') %>><%== can.route.link("Hotels",{page: "hotels"}) %></li>
+		<li <%= selected('pictures') %>><%== can.route.link("Pictures",{page: "pictures"}) %></li>
+	</script>
+	<script src="site.js"></script>
+	<script src='lib.js'></script>
+	<script src='register.js'></script>
+	<script type='text/ejs' id='carouselEJS'>
+		<div id="myCarousel" class="carousel slide">
+		  <ol class="carousel-indicators">
+		    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		    <li data-target="#myCarousel" data-slide-to="1"></li>
+		    <li data-target="#myCarousel" data-slide-to="2"></li>
+		  </ol>
+		 
+		  <div class="carousel-inner">
+		    <div class="active item">
+		    	<img src="https://lh5.googleusercontent.com/-YsGy1hEjLe4/UZe9i6iQVZI/AAAAAAAAHhc/sIf_1RwFcTM/w1554-h1036-no/IMG_1785.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="images/yos.jpg"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh3.googleusercontent.com/-NunSQ2aN5YQ/UZe9u8YKMaI/AAAAAAAAHhs/zTakp49C-KU/w1381-h1036-no/IMG_3975.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh3.googleusercontent.com/-rHhjF0BQTvs/UZe9mU185PI/AAAAAAAAHhk/d_4yNKag4Kc/w777-h1036-no/IMG_4613.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh5.googleusercontent.com/-dQmGtvptB-I/UZe9_5Uc3pI/AAAAAAAAHh0/pipkz4glgU4/w1381-h1036-no/IMG_4831.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh4.googleusercontent.com/-YRHd08x53Us/UZe-O1irQ0I/AAAAAAAAHh8/5OSB20L2Bio/w1381-h1036-no/India+067.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh3.googleusercontent.com/-Mr0iPaHdJro/UZe-aSuecNI/AAAAAAAAHiE/5OEls6ggZ7Y/w1381-h1036-no/May+009.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh5.googleusercontent.com/-ZDHMASLp3yE/UZe-iLpRy8I/AAAAAAAAHiM/gnIjTdJ3c1A/w1381-h1036-no/Phuket+042.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh4.googleusercontent.com/-qe3LWvygIDc/UZe-yvZihMI/AAAAAAAAHiU/IHNpxfX3i-4/w777-h1036-no/Phuket+119.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh4.googleusercontent.com/-1O8pILNHOHI/UZe--LLwwfI/AAAAAAAAHic/VqerLiuyDAU/w777-h1036-no/U+of+I+007.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh5.googleusercontent.com/-eKe7Wr1KLEw/UZe_fd_y6WI/AAAAAAAAHkk/WouG6KZEFpo/w1554-h1036-no/IMG_0790.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="https://lh6.googleusercontent.com/-jWZVcmIb_so/UZe_l3TNknI/AAAAAAAAHi0/Yzugsntddjg/w1381-h1036-no/IMG_4545.JPG"/>
+		    </div>
+		    <div class="item">
+		    	<img src="images/macchu.jpg"/>
+		    </div>
+		    <div class="item">
+		    	<img src="images/bigstar.jpg"/>
+		    </div>
+		  </div>
+
+		  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+		  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+		</div>
+	</script>
+	<script type='text/mustache' id='registerMustache'>
+		<p>{{instructions}}</p>
+
+<table class='table span12'>
+	<thead>
+		<tr class='dates'>
+			<th class='empty'></th>
+			{{#dates}}
+				<th colspan="{{count}}" class="day{{day}}">
+					{{date}}
+				</th>
+			{{/dates}}
+		</tr>
+		<tr class='times'>
+			<th class='empty'></th>
+			{{#events}}
+				<th class="day{{day}}">
+					{{time date}}
+				</th>
+			{{/events}}
+		</tr>
+		<tr class='titles'>
+			<th class='empty'></th>
+			{{#events}}
+				<th class="day{{day}}">
+					{{title}}
+				</th>
+			{{/events}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#family}}
+		 	{{#attendee}}
+			<tr {{data "attendee"}}>
+				<td {{#editablename}}class='editable'{{/editablename}}>
+					{{#editablename}}
+						<div class='name-value'>
+							<span>{{name}}</span> <span class='icon-pencil'></span>
+						</div>
+						<input type='text' {{value name}} style="display:none" class='name-edit'/>
+					{{/editablename}}
+					{{^editablename}}
+						<span>{{name}}</span>
+					{{/editablename}}
+				</td>
+				{{#events}}
+					<td class='{{status attendee}} day{{day}} event-attendence {{name}}'>
+						{{{rsvp attendee}}}
+					</td>
+				{{/events}}
+			</tr>
+			{{/attendee}}
+		{{/family}}
+	</tbody>
+
+</table>
+
+<input type="submit" value="Submit RSVP" id='rsvp-button' class='btn btn-large btn-primary'/>
+<span class='success' id='thankyou' style="display:none">Thank you for RSVPing.</span>
+	</script>
+	<script>
+		$(function(){
+			$("#pictures").html(can.view('#carouselEJS',{}));
+			$('.carousel').carousel()
+		})
+		
+	</script>
+</body>
+</html>

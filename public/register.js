@@ -295,7 +295,7 @@ var RegisterFamily = can.Control({
 		})
 		
 		this.element.html(
-			can.view("register.mustache",{
+			can.view("registerMustache",{
 				instructions: instructions,
 				family: can.map(family, function(attendee){
 					return {attendee: attendee}
