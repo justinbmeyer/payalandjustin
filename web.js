@@ -183,20 +183,6 @@ app.post('/attendee', function(req, res) {
 
 var prettyName = function(family){
 	var attendees = [family.head].concat(family.children);
-	var hasMissing = false;
-	attendees.forEach(function(att){
-		if(!att){
-			hasMissing = true;
-		}
-	})
-	if(hasMissing){
-		attendees.forEach(function(att){
-			console.log("what", att && att.name)
-		})
-		
-	}
-	
-	
 	if(attendees.length == 1){
 		return attendees[0].name
 	}
@@ -217,9 +203,6 @@ app.get('/attendees.csv',function(req, res){
 		attendees = [];
   
 	query.on('row', function(result) {
-		if(!result){
-			console.log("WTF!!!!!!!!!!!!!!!")
-		}
 	    attendees.push(result)
 	});
 	query.on('end', function(){
@@ -233,10 +216,7 @@ app.get('/attendees.csv',function(req, res){
 		};
 		
 		attendees.forEach(function(attendee){
-			if(!attendee){
-				console.log("WTF!!!!!!!!!!!!!!! 2")
-			}
-			if(typeof attendee.headofhouseid == 'number'){
+			if(typeof attendee.headofhouseid == 'number' && attendee.headofhouseid !== attendee.id){
 				makeById(attendee.headofhouseid).children.push(attendee)
 			} else {
 				makeById(attendee.id).head = attendee
