@@ -183,6 +183,20 @@ app.post('/attendee', function(req, res) {
 
 var prettyName = function(family){
 	var attendees = [family.head].concat(family.children);
+	var hasMissing = false;
+	attendees.forEach(function(att){
+		if(!att){
+			hasMissing = true;
+		}
+	})
+	if(hasMissing){
+		attendees.forEach(function(att){
+			console.log("what", att && att.name)
+		})
+		
+	}
+	
+	
 	if(attendees.length == 1){
 		return attendees[0].name
 	}
