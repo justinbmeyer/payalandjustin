@@ -217,6 +217,9 @@ app.get('/attendees.csv',function(req, res){
 		attendees = [];
   
 	query.on('row', function(result) {
+		if(!result){
+			console.log("WTF!!!!!!!!!!!!!!!")
+		}
 	    attendees.push(result)
 	});
 	query.on('end', function(){
@@ -230,6 +233,9 @@ app.get('/attendees.csv',function(req, res){
 		};
 		
 		attendees.forEach(function(attendee){
+			if(!attendee){
+				console.log("WTF!!!!!!!!!!!!!!! 2")
+			}
 			if(typeof attendee.headofhouseid == 'number'){
 				makeById(attendee.headofhouseid).children.push(attendee)
 			} else {
