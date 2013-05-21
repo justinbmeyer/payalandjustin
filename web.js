@@ -227,15 +227,34 @@ app.get('/attendees.csv',function(req, res){
 			var fam = families[headId];
 			
 			familyData.push({
-				name: prettyName(fam),
+				head: fam.head.name,
+				names: prettyName(fam),
 				street: fam.head.street,
 				apt: fam.head.apt,
 				city: fam.head.city,
 				zip: fam.head.zip,
-				country: fam.head.country
+				country: fam.head.country,
 			})
 		}
-		
+		familyData.sort(function(f1, f2){
+			var last1 = f1.head.split(" ").pop(),
+				last2 = f2.head.split(" ").pop()
+			if(last1 > last2){
+				return 1
+			} else if(last1 < last2){
+				return -1
+			} else {
+				var first1 = f1.head.split(" ").shift(),
+					first2 = f2.head.split(" ").shift();
+				if(first1 > first2) {
+					return 1
+				} else if(first1 < first2){
+					return -1;
+				} else {
+					return 0
+				}
+			}
+		})
 	    csv().from.array(familyData).to(res)
 	});
     
