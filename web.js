@@ -232,6 +232,7 @@ app.get('/attendees.csv',function(req, res){
 				street: fam.head.street,
 				apt: fam.head.apt,
 				city: fam.head.city,
+				state: fam.head.state,
 				zip: fam.head.zip,
 				country: fam.head.country,
 			})
