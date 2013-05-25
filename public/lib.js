@@ -253,7 +253,8 @@ Attendee = can.Model({
 	},
 	headOfHouse: function(){
 		if(typeof this.attr('headofhouseid') == 'number'){
-			return this.constructor.store[this.attr('headofhouseid')].attr('name')
+			var house = this.constructor.store[this.attr('headofhouseid')]
+			return (house && house.attr('name') ) || "set incorrectly"
 		} else {
 			return this.attr('name')
 		}
