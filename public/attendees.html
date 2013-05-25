@@ -193,6 +193,13 @@
 					houseB = byId[typeof b.headofhouseid == "number" ? b.headofhouseid 
 						: b.id]
 				
+				if(!houseA){
+					return -1;
+				}
+				if(!houseB){
+					return 1;
+				}
+				
 				var houseALast = $.trim(houseA.name.toLowerCase()).split(" ").pop(),
 					houseBLast = $.trim(houseB.name.toLowerCase()).split(" ").pop();
 
