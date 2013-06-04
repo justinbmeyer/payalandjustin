@@ -321,8 +321,18 @@ var RegisterFamily = can.Control({
 		var defs = [];
 		var attendees = this.options.family();
 		can.each(attendees, function(attendee){
+			// if undefined, default to attending 
+			can.each(["manglik", "mehndi","wedding"],function(attr){
+				if( attendee.attr("invitedto"+attr) ) {
+					if(attendee.attr("comingto"+attr) !== true && attendee.attr("comingto"+attr) !== false){
+						attendee.attr("comingto"+attr, attendee.attr("attending"))
+					}
+				}
+				
+			})
 			defs.push(attendee.save())
-		})
+		});
+		
 		$("#rsvp-button").val("Submitting").prop("disabled", true)
 		$.when.apply($,defs).then(function(){
 			$("#rsvp-button").val("Update RSVP").prop("disabled", false);
