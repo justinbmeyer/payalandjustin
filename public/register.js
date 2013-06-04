@@ -325,7 +325,7 @@ var RegisterFamily = can.Control({
 			can.each(["manglik", "mehndi","wedding"],function(attr){
 				if( attendee.attr("invitedto"+attr) ) {
 					if(attendee.attr("comingto"+attr) !== true && attendee.attr("comingto"+attr) !== false){
-						attendee.attr("comingto"+attr, attendee.attr("attending"))
+						attendee.attr("comingto"+attr, attendee.attr("attending") || false)
 					}
 				}
 				
