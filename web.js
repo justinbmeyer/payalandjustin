@@ -123,11 +123,11 @@ var props = {
 			values = [];
 		for(var prop in props) {
 			if(req.body[prop] !== undefined){
-				console.log(prop,req.body[prop], props[prop](req.body[prop]) )
 				propertyNames.push(prop);
 				values.push( props[prop](req.body[prop]) )
 			}
 		}
+		console.log(req.body[prop])
 		return {
 			properties: propertyNames,
 			values: values

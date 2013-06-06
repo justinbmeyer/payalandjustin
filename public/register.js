@@ -183,7 +183,7 @@ can.Mustache.registerHelper('rsvp', function(attendee){
 	return "<div class='"+
 		(coming ? "coming success" : "regrets") 
 		+"'>" + checkbox + 
-		(coming ? "attending" : "regrets") +"</div>";
+		(coming ? "attending" : "not attending") +"</div>";
 })
 
 can.Mustache.registerHelper('status', function(attendee){
@@ -287,9 +287,9 @@ var RegisterFamily = can.Control({
 			})
 			
 			if(guests){
-				return "Please name your "+(guests>1 ? "guests":"guest")+", check the boxes for the events you will be attending and click the submit button:"
+				return "Please name your "+(guests>1 ? "guests":"guest")+", check the boxes for the events you will be attending and click the <strong>submit button</strong>:"
 			} else {
-				return "Please check the boxes for the events you will be attending and click the submit button:"
+				return "Please check the boxes for the events you will be attending and click the <strong>submit button</strong>:"
 			}
 			
 		})
